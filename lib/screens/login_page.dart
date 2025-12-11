@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPageScreen> {
                                 color: AppColors.text(context),
                                 shadows: [
                                   Shadow(
-                                    color: Colors.white.withOpacity(0.4), // a glow színe
+                                    color: Colors.white.withValues(alpha: 0.4), // a glow színe
                                     blurRadius: 8, // mennyire legyen homályos a glow
                                     offset: Offset(0, 0), // eltolás, 0,0 = középen
                                   ),
@@ -185,7 +185,7 @@ class _LoginPageState extends State<LoginPageScreen> {
                                 });
                               },
                               activeColor: AppColors.primary(context),
-                              checkColor: Colors.black,
+                              checkColor: AppColors.inputBackground(context),
                             ),
                             Text(
                               "Emlékezz rám",
@@ -221,7 +221,7 @@ class _LoginPageState extends State<LoginPageScreen> {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary(context),
-                              foregroundColor: Colors.black,
+                              foregroundColor: AppColors.inputBackground(context),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
