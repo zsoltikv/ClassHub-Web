@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
 // this is the forgot password screen widget, it allows the user to enter their email
 // to initiate a password reset process
@@ -18,107 +19,151 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size; // get screen size for responsive layout
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: AppColors.background(context),
       body: SafeArea(
-        // SafeArea ensures content does not overlap system UI elements
         child: Center(
           child: SingleChildScrollView(
-            // allows scrolling if content overflows vertically
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
             child: ConstrainedBox(
-              // limit the maximum width for readability
               constraints: const BoxConstraints(maxWidth: 500),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // --- HEADER SECTION ---
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Jelszó visszaállítása", // page title
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 6),
-                      Text(
-                        "Add meg az e-mail címed, hogy visszaállíthasd a jelszavad", // description
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 28), // spacing before form
-
-                  // --- EMAIL INPUT FIELD ---
-                  TextFormField(
-                    controller: _emailController, // binds input text to the controller
-                    decoration: const InputDecoration(
-                      labelText: "E-mail",
-                      prefixIcon: Icon(Icons.email), // icon to indicate email field
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // --- HEADER ---
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Jelszó visszaállítása",
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.text(context),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          "Add meg az e-mail címed, hogy visszaállíthasd a jelszavad",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.text(context).withOpacity(0.6),
+                          ),
+                        ),
+                      ],
                     ),
-                    validator: (value) {
-                      // checks if input is not empty and contains '@'
-                      if (value == null || value.isEmpty) {
-                        return "Kérlek add meg az e-mail címed!";
-                      }
-                      if (!value.contains("@")) {
-                        return "Nem érvényes e-mail cím.";
-                      }
-                      return null; // valid input
-                    },
-                  ),
 
-                  const SizedBox(height: 24), // spacing before button
+                    const SizedBox(height: 28),
 
-                  // --- SUBMIT BUTTON ---
-                  SizedBox(
-                    height: 48, // fixed height for button
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // validate the form before processing
-                        if (_formKey.currentState!.validate()) {
-                          // here you would normally call backend to send reset email
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                "Jelszó visszaállító e-mail elküldve: ${_emailController.text}",
-                              ),
-                            ),
-                          );
+                    // --- EMAIL FIELD ---
+                    TextFormField(
+                      controller: _emailController,
+                      style: TextStyle(
+                        color: AppColors.text(context),
+                      ),
+                      cursorColor: AppColors.primary(context),
+                      decoration: InputDecoration(
+                        labelText: "E-mail",
+                        labelStyle: TextStyle(
+                          color: AppColors.text(context).withOpacity(0.7),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: AppColors.primary(context),
+                        ),
+                        filled: true,
+                        fillColor: AppColors.inputBackground(context),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary(context).withOpacity(0.3),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary(context),
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Kérlek add meg az e-mail címed!";
                         }
+                        if (!value.contains("@")) {
+                          return "Nem érvényes e-mail cím.";
+                        }
+                        return null;
                       },
-                      child: const Text("Küldés"),
                     ),
-                  ),
 
-                  const SizedBox(height: 16), // spacing before login link
+                    const SizedBox(height: 24),
 
-                  // --- LOGIN LINK ---
-                  Align(
-                    alignment: Alignment.centerRight, // align to right
-                    child: TextButton(
-                      onPressed: () {
-                        // navigate back to login page
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Vissza a Bejelentkezéshez"),
+                    // --- SUBMIT BUTTON ---
+                    SizedBox(
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: AppColors.primary(context),
+                                content: Text(
+                                  "Jelszó visszaállító e-mail elküldve: ${_emailController.text}",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary(context),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 2,
+                        ),
+                        child: const Text("Küldés"),
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
-                  // --- FOOTER (optional) ---
-                  Center(
-                    child: Text(
-                      // shows the current screen dimensions for demo purposes
-                      'Képernyő: ${size.width.toStringAsFixed(0)} × ${size.height.toStringAsFixed(0)}',
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    // --- LOGIN LINK ---
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.primary(context),
+                        ),
+                        child: const Text("Vissza a Bejelentkezéshez"),
+                      ),
                     ),
-                  ),
-                ],
+
+                    const SizedBox(height: 16),
+
+                    // --- FOOTER ---
+                    Center(
+                      child: Text(
+                        'Képernyő: ${size.width.toStringAsFixed(0)} × ${size.height.toStringAsFixed(0)}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.text(context).withOpacity(0.6),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

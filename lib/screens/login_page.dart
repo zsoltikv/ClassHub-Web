@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
 
-// this is the main login page widget, it is stateful because it needs to manage
-// form validation state, password visibility, and the 'remember me' checkbox state
 class LoginPageScreen extends StatefulWidget {
   const LoginPageScreen({Key? key}) : super(key: key);
 
@@ -10,168 +9,232 @@ class LoginPageScreen extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPageScreen> {
-  // a key to identify the form and allow validation checks
   final _formKey = GlobalKey<FormState>();
 
-  // controls whether the password field hides the text or not
   bool _obscurePassword = true;
-
-  // stores the state of the 'remember me' checkbox (true if checked)
   bool _rememberMe = false;
 
   @override
   Widget build(BuildContext context) {
-    // retrieve the size of the device screen to allow responsive layout adjustments
     final size = MediaQuery.of(context).size;
 
-    // Scaffold provides the basic visual structure: app bar, body, floating button, etc.
     return Scaffold(
+      backgroundColor: AppColors.background(context),
       body: SafeArea(
-        // SafeArea ensures content does not overlap system UI elements like notch or status bar
         child: Center(
           child: SingleChildScrollView(
-            // allows vertical scrolling for smaller devices or landscape orientation
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
             child: ConstrainedBox(
-              // restricts the maximum width for better readability on large screens (e.g., web)
               constraints: const BoxConstraints(maxWidth: 500),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, // stretches children to fill width
-                mainAxisSize: MainAxisSize.min, // only use as much vertical space as needed
-                children: [
-                  // --- HEADER SECTION ---
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // align text to the left
-                    children: const [
-                      Text(
-                        "Bejelentkezés", // page title
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 28), // spacing between header and form fields
-
-                  // --- EMAIL INPUT FIELD ---
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: "E-mail", // label shown inside the input when empty
-                      prefixIcon: Icon(Icons.email), // icon at the start of the field
-                    ),
-                    // validator function checks if the email is valid
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Kérlek add meg az e-mail címed!"; // error message if empty
-                      }
-                      if (!value.contains("@")) {
-                        return "Nem érvényes e-mail cím."; // error message if not a valid email format
-                      }
-                      return null; // return null if input is valid
-                    },
-                  ),
-
-                  const SizedBox(height: 16), // spacing between fields
-
-                  // --- PASSWORD INPUT FIELD ---
-                  TextFormField(
-                    obscureText: _obscurePassword, // hides the input text if true
-                    decoration: InputDecoration(
-                      labelText: "Jelszó",
-                      prefixIcon: const Icon(Icons.lock), // lock icon at start of the field
-                      // suffix icon to toggle password visibility
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // --- HEADER SECTION ---
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Bejelentkezés",
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.text(context),
+                          ),
                         ),
-                        onPressed: () {
-                          // toggle password visibility when pressed
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                      ),
+                      ],
                     ),
-                    // validator checks that password is not empty and minimum length
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Kérlek add meg a jelszavad!"; // error if empty
-                      }
-                      if (value.length < 6) {
-                        return "A jelszó legalább 6 karakter legyen."; // error if too short
-                      }
-                      return null; // valid password
-                    },
-                  ),
 
-                  const SizedBox(height: 12), // spacing
+                    const SizedBox(height: 28),
 
-                  // --- REMEMBER ME CHECKBOX AND FORGOT PASSWORD LINK ---
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _rememberMe, // current state of the checkbox
-                        onChanged: (value) {
-                          // update state when user taps the checkbox
-                          setState(() {
-                            _rememberMe = value ?? false; // default to false if null
-                          });
-                        },
+                    // --- EMAIL INPUT FIELD ---
+                    TextFormField(
+                      style: TextStyle(
+                        color: AppColors.text(context),
                       ),
-                      const Text("Emlékezz rám"), // label for the checkbox
-                      const Spacer(), // pushes the next widget to the far right
-                      TextButton(
-                        onPressed: () {
-                          // navigate to the forgot password page when clicked
-                          Navigator.pushNamed(context, '/forgot-password');
-                        },
-                        child: const Text("Elfelejtetted?"),
+                      cursorColor: AppColors.primary(context),
+                      decoration: InputDecoration(
+                        labelText: "E-mail",
+                        labelStyle: TextStyle(
+                          color: AppColors.text(context).withOpacity(0.7),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: AppColors.primary(context),
+                        ),
+                        filled: true,
+                        fillColor: AppColors.inputBackground(context),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary(context).withOpacity(0.3),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary(context),
+                            width: 2,
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  // --- REGISTRATION LINK ---
-                  Align(
-                    alignment: Alignment.centerRight, // align link to the right
-                    child: TextButton(
-                      onPressed: () {
-                        // navigate to the registration page when clicked
-                        Navigator.pushNamed(context, '/register');
-                      },
-                      child: const Text("Regisztráció"),
-                    ),
-                  ),
-
-                  const SizedBox(height: 24), // spacing before login button
-
-                  // --- LOGIN BUTTON ---
-                  SizedBox(
-                    height: 48, // fixed height for button
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // validate the form before processing login
-                        if (_formKey.currentState!.validate()) {
-                          // print demo messages (replace with actual login logic)
-                          print("Bejelentkezés sikeres (demo)");
-                          print("Emlékezz rám: $_rememberMe");
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Kérlek add meg az e-mail címed!";
                         }
+                        if (!value.contains("@")) {
+                          return "Nem érvényes e-mail cím.";
+                        }
+                        return null;
                       },
-                      child: const Text("Bejelentkezés"),
                     ),
-                  ),
 
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
-                  // --- FOOTER ---
-                  Center(
-                    child: Text(
-                      // displays the current screen width and height (for demo purposes)
-                      'Képernyő: ${size.width.toStringAsFixed(0)} × ${size.height.toStringAsFixed(0)}',
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    // --- PASSWORD INPUT FIELD ---
+                    TextFormField(
+                      obscureText: _obscurePassword,
+                      style: TextStyle(
+                        color: AppColors.text(context),
+                      ),
+                      cursorColor: AppColors.primary(context),
+                      decoration: InputDecoration(
+                        labelText: "Jelszó",
+                        labelStyle: TextStyle(
+                          color: AppColors.text(context).withOpacity(0.7),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: AppColors.primary(context),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            color: AppColors.text(context).withOpacity(0.7),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                        filled: true,
+                        fillColor: AppColors.inputBackground(context),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary(context).withOpacity(0.3),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: AppColors.primary(context),
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Kérlek add meg a jelszavad!";
+                        }
+                        if (value.length < 6) {
+                          return "A jelszó legalább 6 karakter legyen.";
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                ],
+
+                    const SizedBox(height: 12),
+
+                    // --- REMEMBER ME + FORGOT PASSWORD ---
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _rememberMe,
+                          onChanged: (value) {
+                            setState(() {
+                              _rememberMe = value ?? false;
+                            });
+                          },
+                          activeColor: AppColors.primary(context),
+                          checkColor: Colors.white,
+                        ),
+                        Text(
+                          "Emlékezz rám",
+                          style: TextStyle(
+                            color: AppColors.text(context),
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/forgot-password');
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.primary(context),
+                          ),
+                          child: const Text("Elfelejtetted?"),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    // --- REGISTRATION LINK ---
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/register');
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.primary(context),
+                        ),
+                        child: const Text("Regisztráció"),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // --- LOGIN BUTTON ---
+                    SizedBox(
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            print("Bejelentkezés sikeres (demo)");
+                            print("Emlékezz rám: $_rememberMe");
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary(context),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 2,
+                        ),
+                        child: const Text("Bejelentkezés"),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // --- FOOTER ---
+                    Center(
+                      child: Text(
+                        'Képernyő: ${size.width.toStringAsFixed(0)} × ${size.height.toStringAsFixed(0)}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.text(context).withOpacity(0.6),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
