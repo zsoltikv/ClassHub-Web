@@ -1,6 +1,7 @@
 import 'package:classhubweb/screens/forgot_password_page.dart';
 import 'package:classhubweb/screens/login_page.dart';
 import 'package:classhubweb/screens/register_page.dart';
+import 'screens/main_page.dart';
 import 'package:classhubweb/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -33,13 +34,14 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system, // use system theme mode (light/dark)
 
       // initial route when the app starts
-      initialRoute: '/login',
+      initialRoute: '/main-page',
 
       // define named routes for navigation
       routes: {
         '/login': (context) => const LoginPageScreen(), // login page route
-        '/register': (context) => const RegisterScreen(), // registration page route
+        '/register': (context) => RegisterScreen(), // registration page route
         '/forgot-password': (context) => const ForgotPasswordScreen(), // forgot password route
+        '/main-page': (context) => MainPageScreen(), // main page route
       },
     );
   }
