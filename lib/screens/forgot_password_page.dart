@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
-import '../widgets/starry_background.dart'; // import the animated starry background
+import '../widgets/starry_background.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -20,14 +20,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // --- STAR BACKGROUND ---
-          const StarryBackground(), // háttér a legalsó rétegben
+          const StarryBackground(),
 
-          // --- FORGOT PASSWORD FORM ---
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 32.0,
+                ),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 500),
                   child: Form(
@@ -36,7 +37,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // --- HEADER ---
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -49,9 +49,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 letterSpacing: 1.5,
                                 shadows: [
                                   Shadow(
-                                    color: Colors.white.withValues(alpha: 0.4), // a glow színe
-                                    blurRadius: 8, // mennyire legyen homályos a glow
-                                    offset: Offset(0, 0), // eltolás, 0,0 = középen
+                                    color: Colors.white.withValues(alpha: 0.4),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 0),
                                   ),
                                 ],
                               ),
@@ -61,7 +61,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               "Add meg az e-mail címed, hogy visszaállíthasd a jelszavad",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: AppColors.text(context).withValues(alpha: 0.6),
+                                color: AppColors.text(
+                                  context,
+                                ).withValues(alpha: 0.6),
                               ),
                             ),
                           ],
@@ -69,17 +71,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                         const SizedBox(height: 28),
 
-                        // --- EMAIL FIELD ---
                         TextFormField(
                           controller: _emailController,
-                          style: TextStyle(
-                            color: AppColors.text(context),
-                          ),
+                          style: TextStyle(color: AppColors.text(context)),
                           cursorColor: AppColors.primary(context),
                           decoration: InputDecoration(
                             labelText: "E-mail",
                             labelStyle: TextStyle(
-                              color: AppColors.text(context).withValues(alpha: 0.7),
+                              color: AppColors.text(
+                                context,
+                              ).withValues(alpha: 0.7),
                             ),
                             prefixIcon: Icon(
                               Icons.email,
@@ -90,7 +91,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
-                                color: AppColors.primary(context).withValues(alpha: 0.3),
+                                color: AppColors.primary(
+                                  context,
+                                ).withValues(alpha: 0.3),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -114,7 +117,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                         const SizedBox(height: 24),
 
-                        // --- SUBMIT BUTTON ---
                         SizedBox(
                           height: 48,
                           child: ElevatedButton(
@@ -136,7 +138,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary(context),
-                              foregroundColor: AppColors.inputBackground(context),
+                              foregroundColor: AppColors.inputBackground(
+                                context,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -144,16 +148,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             ),
                             child: const Text(
                               "Küldés",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
 
                         const SizedBox(height: 16),
 
-                        // --- LOGIN LINK ---
                         Align(
                           alignment: Alignment.center,
                           child: TextButton(
@@ -169,13 +170,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                         const SizedBox(height: 16),
 
-                        // --- FOOTER ---
                         Center(
                           child: Text(
                             'Képernyő: ${size.width.toStringAsFixed(0)} × ${size.height.toStringAsFixed(0)}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: AppColors.text(context).withValues(alpha: 0.6),
+                              color: AppColors.text(
+                                context,
+                              ).withValues(alpha: 0.6),
                             ),
                           ),
                         ),

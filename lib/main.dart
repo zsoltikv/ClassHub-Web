@@ -5,43 +5,34 @@ import 'screens/main_page.dart';
 import 'package:classhubweb/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-// main entry point of the app
 void main() {
-  runApp(const MyApp()); // run the app with MyApp widget
+  runApp(const MyApp());
 }
 
-// main app widget, stateless because it does not manage internal state
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ClassHub', // app title
-      debugShowCheckedModeBanner: false, // remove the debug banner
+      title: 'ClassHub',
+      debugShowCheckedModeBanner: false,
 
-      // theming for the app with custom font globally
       theme: AppTheme.light.copyWith(
-        textTheme: AppTheme.light.textTheme.apply(
-          fontFamily: 'Montserrat', // ← custom font applied everywhere
-        ),
+        textTheme: AppTheme.light.textTheme.apply(fontFamily: 'Montserrat'),
       ),
       darkTheme: AppTheme.dark.copyWith(
-        textTheme: AppTheme.dark.textTheme.apply(
-          fontFamily: 'Montserrat', // ← same for dark theme
-        ),
+        textTheme: AppTheme.dark.textTheme.apply(fontFamily: 'Montserrat'),
       ),
-      themeMode: ThemeMode.system, // use system theme mode (light/dark)
+      themeMode: ThemeMode.system,
 
-      // initial route when the app starts
       initialRoute: '/main-page',
 
-      // define named routes for navigation
       routes: {
-        '/login': (context) => const LoginPageScreen(), // login page route
-        '/register': (context) => RegisterScreen(), // registration page route
-        '/forgot-password': (context) => const ForgotPasswordScreen(), // forgot password route
-        '/main-page': (context) => MainPageScreen(), // main page route
+        '/login': (context) => const LoginPageScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/main-page': (context) => MainPageScreen(),
       },
     );
   }

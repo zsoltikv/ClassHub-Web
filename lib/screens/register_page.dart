@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
-import '../widgets/starry_background.dart'; // import the animated starry background
+import '../widgets/starry_background.dart';
 
-// this is the registration page widget, where a new user can create an account
-// it is stateful because it needs to manage password visibility and form validation
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -12,30 +10,27 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  // key to manage form validation
   final _formKey = GlobalKey<FormState>();
 
-  // controls whether the password is hidden or visible
   bool _obscurePassword = true;
 
-  // controls whether the confirm password field is hidden or visible
   bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size; // get screen size for responsive layout
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: Stack(
         children: [
-          // --- STAR BACKGROUND ---  
-          const StarryBackground(), // háttér a legalsó rétegben
-
-          // --- REGISTRATION FORM ---  
+          const StarryBackground(),
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 32.0,
+                ),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 500),
                   child: Form(
@@ -44,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // --- HEADER SECTION ---
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -57,9 +51,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: AppColors.text(context),
                                 shadows: [
                                   Shadow(
-                                    color: Colors.white.withValues(alpha: 0.4), // a glow színe
-                                    blurRadius: 8, // mennyire legyen homályos a glow
-                                    offset: Offset(0, 0), // eltolás, 0,0 = középen
+                                    color: Colors.white.withValues(alpha: 0.4),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 0),
                                   ),
                                 ],
                               ),
@@ -69,7 +63,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               "Hozd létre a fiókodat",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: AppColors.text(context).withValues(alpha: 0.6),
+                                color: AppColors.text(
+                                  context,
+                                ).withValues(alpha: 0.6),
                               ),
                             ),
                           ],
@@ -77,16 +73,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 28),
 
-                        // --- EMAIL INPUT FIELD ---
                         TextFormField(
-                          style: TextStyle(
-                            color: AppColors.text(context),
-                          ),
+                          style: TextStyle(color: AppColors.text(context)),
                           cursorColor: AppColors.primary(context),
                           decoration: InputDecoration(
                             labelText: "E-mail",
                             labelStyle: TextStyle(
-                              color: AppColors.text(context).withValues(alpha: 0.7),
+                              color: AppColors.text(
+                                context,
+                              ).withValues(alpha: 0.7),
                             ),
                             prefixIcon: Icon(
                               Icons.email,
@@ -97,7 +92,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
-                                color: AppColors.primary(context).withValues(alpha: 0.3),
+                                color: AppColors.primary(
+                                  context,
+                                ).withValues(alpha: 0.3),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -121,17 +118,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 16),
 
-                        // --- PASSWORD INPUT FIELD ---
                         TextFormField(
                           obscureText: _obscurePassword,
-                          style: TextStyle(
-                            color: AppColors.text(context),
-                          ),
+                          style: TextStyle(color: AppColors.text(context)),
                           cursorColor: AppColors.primary(context),
                           decoration: InputDecoration(
                             labelText: "Jelszó",
                             labelStyle: TextStyle(
-                              color: AppColors.text(context).withValues(alpha: 0.7),
+                              color: AppColors.text(
+                                context,
+                              ).withValues(alpha: 0.7),
                             ),
                             prefixIcon: Icon(
                               Icons.lock,
@@ -139,8 +135,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                                color: AppColors.text(context).withValues(alpha: 0.7),
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: AppColors.text(
+                                  context,
+                                ).withValues(alpha: 0.7),
                               ),
                               onPressed: () {
                                 setState(() {
@@ -153,7 +153,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
-                                color: AppColors.primary(context).withValues(alpha: 0.3),
+                                color: AppColors.primary(
+                                  context,
+                                ).withValues(alpha: 0.3),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -177,17 +179,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 16),
 
-                        // --- CONFIRM PASSWORD FIELD ---
                         TextFormField(
                           obscureText: _obscureConfirmPassword,
-                          style: TextStyle(
-                            color: AppColors.text(context),
-                          ),
+                          style: TextStyle(color: AppColors.text(context)),
                           cursorColor: AppColors.primary(context),
                           decoration: InputDecoration(
                             labelText: "Jelszó megerősítése",
                             labelStyle: TextStyle(
-                              color: AppColors.text(context).withValues(alpha: 0.7),
+                              color: AppColors.text(
+                                context,
+                              ).withValues(alpha: 0.7),
                             ),
                             prefixIcon: Icon(
                               Icons.lock,
@@ -195,12 +196,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                                color: AppColors.text(context).withValues(alpha: 0.7),
+                                _obscureConfirmPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: AppColors.text(
+                                  context,
+                                ).withValues(alpha: 0.7),
                               ),
                               onPressed: () {
                                 setState(() {
-                                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                                  _obscureConfirmPassword =
+                                      !_obscureConfirmPassword;
                                 });
                               },
                             ),
@@ -209,7 +215,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
-                                color: AppColors.primary(context).withValues(alpha: 0.3),
+                                color: AppColors.primary(
+                                  context,
+                                ).withValues(alpha: 0.3),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -230,7 +238,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 24),
 
-                        // --- REGISTER BUTTON ---
                         SizedBox(
                           height: 48,
                           child: ElevatedButton(
@@ -241,7 +248,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary(context),
-                              foregroundColor: AppColors.inputBackground(context),
+                              foregroundColor: AppColors.inputBackground(
+                                context,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -249,16 +258,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             child: const Text(
                               "Regisztráció",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
 
                         const SizedBox(height: 16),
 
-                        // --- LOGIN LINK ---
                         Align(
                           alignment: Alignment.center,
                           child: TextButton(
@@ -274,13 +280,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         const SizedBox(height: 16),
 
-                        // --- FOOTER ---
                         Center(
                           child: Text(
                             'Képernyő: ${size.width.toStringAsFixed(0)} × ${size.height.toStringAsFixed(0)}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: AppColors.text(context).withValues(alpha: 0.6),
+                              color: AppColors.text(
+                                context,
+                              ).withValues(alpha: 0.6),
                             ),
                           ),
                         ),

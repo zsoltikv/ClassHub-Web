@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'main_page.dart'; // ide importáld a main page-t
+import 'main_page.dart';
 import '../theme/app_colors.dart';
-import '../widgets/starry_background.dart'; // animált háttér
+import '../widgets/starry_background.dart';
 
 class LoginPageScreen extends StatefulWidget {
   const LoginPageScreen({Key? key}) : super(key: key);
@@ -13,7 +13,6 @@ class LoginPageScreen extends StatefulWidget {
 class _LoginPageScreenState extends State<LoginPageScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // Demo felhasználó adatai
   final String demoEmail = "demo@user.com";
   final String demoPassword = "123456";
 
@@ -35,8 +34,10 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 32,
+                ),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 500),
                   child: Form(
@@ -45,7 +46,6 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // --- HEADER ---
                         Text(
                           "Bejelentkezés",
                           style: TextStyle(
@@ -63,7 +63,6 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                         ),
                         const SizedBox(height: 28),
 
-                        // --- EMAIL FIELD ---
                         TextFormField(
                           controller: _emailController,
                           style: TextStyle(color: AppColors.text(context)),
@@ -71,17 +70,21 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                           decoration: InputDecoration(
                             labelText: "E-mail",
                             labelStyle: TextStyle(
-                                color: AppColors.text(context)
-                                    .withOpacity(0.7)),
-                            prefixIcon:
-                                Icon(Icons.email, color: AppColors.primary(context)),
+                              color: AppColors.text(context).withOpacity(0.7),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: AppColors.primary(context),
+                            ),
                             filled: true,
                             fillColor: AppColors.inputBackground(context),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
-                                  color: AppColors.primary(context)
-                                      .withOpacity(0.3)),
+                                color: AppColors.primary(
+                                  context,
+                                ).withOpacity(0.3),
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -104,7 +107,6 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
                         const SizedBox(height: 16),
 
-                        // --- PASSWORD FIELD ---
                         TextFormField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
@@ -113,17 +115,18 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                           decoration: InputDecoration(
                             labelText: "Jelszó",
                             labelStyle: TextStyle(
-                                color: AppColors.text(context)
-                                    .withOpacity(0.7)),
-                            prefixIcon:
-                                Icon(Icons.lock, color: AppColors.primary(context)),
+                              color: AppColors.text(context).withOpacity(0.7),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: AppColors.primary(context),
+                            ),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscurePassword
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: AppColors.text(context)
-                                    .withOpacity(0.7),
+                                color: AppColors.text(context).withOpacity(0.7),
                               ),
                               onPressed: () {
                                 setState(() {
@@ -136,13 +139,17 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
-                                  color: AppColors.primary(context)
-                                      .withOpacity(0.3)),
+                                color: AppColors.primary(
+                                  context,
+                                ).withOpacity(0.3),
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(
-                                  color: AppColors.primary(context), width: 2),
+                                color: AppColors.primary(context),
+                                width: 2,
+                              ),
                             ),
                           ),
                           validator: (value) {
@@ -158,7 +165,6 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
                         const SizedBox(height: 12),
 
-                        // --- REMEMBER ME + FORGOT PASSWORD ---
                         Row(
                           children: [
                             Checkbox(
@@ -171,14 +177,17 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                               activeColor: AppColors.primary(context),
                               checkColor: AppColors.inputBackground(context),
                             ),
-                            Text("Emlékezz rám",
-                                style:
-                                    TextStyle(color: AppColors.text(context))),
+                            Text(
+                              "Emlékezz rám",
+                              style: TextStyle(color: AppColors.text(context)),
+                            ),
                             const Spacer(),
                             TextButton(
                               onPressed: () {
                                 Navigator.pushNamed(
-                                    context, '/forgot-password');
+                                  context,
+                                  '/forgot-password',
+                                );
                               },
                               style: TextButton.styleFrom(
                                 foregroundColor: AppColors.primary(context),
@@ -190,7 +199,6 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
                         const SizedBox(height: 24),
 
-                        // --- LOGIN BUTTON ---
                         SizedBox(
                           height: 48,
                           child: ElevatedButton(
@@ -198,18 +206,18 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                               if (_formKey.currentState!.validate()) {
                                 if (_emailController.text == demoEmail &&
                                     _passwordController.text == demoPassword) {
-                                  // sikeres demo login
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) =>
-                                            const MainPageScreen()),
+                                      builder: (_) => const MainPageScreen(),
+                                    ),
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content:
-                                          Text("Hibás e-mail vagy jelszó!"),
+                                      content: Text(
+                                        "Hibás e-mail vagy jelszó!",
+                                      ),
                                       duration: Duration(seconds: 2),
                                     ),
                                   );
@@ -218,7 +226,9 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary(context),
-                              foregroundColor: AppColors.inputBackground(context),
+                              foregroundColor: AppColors.inputBackground(
+                                context,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -233,22 +243,20 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
                         const SizedBox(height: 16),
 
-                        // --- REGISTRATION LINK ---
                         Center(
                           child: TextButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/register');
                             },
                             style: TextButton.styleFrom(
-                                foregroundColor: AppColors.primary(context)),
-                            child: const Text(
-                                "Még nincs fiókod? Regisztráció"),
+                              foregroundColor: AppColors.primary(context),
+                            ),
+                            child: const Text("Még nincs fiókod? Regisztráció"),
                           ),
                         ),
 
                         const SizedBox(height: 16),
 
-                        // --- FOOTER ---
                         Center(
                           child: Text(
                             'Képernyő: ${size.width.toStringAsFixed(0)} × ${size.height.toStringAsFixed(0)}',

@@ -2,12 +2,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
-// star model to store position, size, velocity, and glow
 class Star {
   Offset position;
   double size;
-  double dx; // horizontal speed
-  double dy; // vertical speed
+  double dx;
+  double dy;
   double glow;
   double brightness;
 
@@ -21,29 +20,30 @@ class Star {
   });
 }
 
-// custom painter to draw stars with subtle bloom/glow
 class StarryBackgroundPainter extends CustomPainter {
   final List<Star> stars;
   final Color backgroundColor;
   final Color starColor;
 
-  StarryBackgroundPainter({required this.stars, required this.backgroundColor, required this.starColor});
+  StarryBackgroundPainter({
+    required this.stars,
+    required this.backgroundColor,
+    required this.starColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    // fill background black
     final bgPaint = Paint()..color = backgroundColor;
     canvas.drawRect(Offset.zero & size, bgPaint);
 
     for (var star in stars) {
-      // glow
       final glowPaint = Paint()
         ..color = starColor.withValues(alpha: star.brightness * 0.2)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
       canvas.drawCircle(star.position, star.size + star.glow, glowPaint);
 
-      // main star
-      final paint = Paint()..color = starColor.withValues(alpha: star.brightness);
+      final paint = Paint()
+        ..color = starColor.withValues(alpha: star.brightness);
       canvas.drawCircle(star.position, star.size, paint);
     }
   }
@@ -52,7 +52,6 @@ class StarryBackgroundPainter extends CustomPainter {
   bool shouldRepaint(covariant StarryBackgroundPainter oldDelegate) => true;
 }
 
-// widget for animated starry background
 class StarryBackground extends StatefulWidget {
   const StarryBackground({super.key});
 
@@ -74,12 +73,11 @@ class _StarryBackgroundState extends State<StarryBackground>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 60),
-    )..addListener(() {
-        _updateStars();
-      });
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 60))
+          ..addListener(() {
+            _updateStars();
+          });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       screenWidth = MediaQuery.of(context).size.width;
@@ -93,8 +91,8 @@ class _StarryBackgroundState extends State<StarryBackground>
               _random.nextDouble() * screenHeight,
             ),
             size: _random.nextDouble() * 1.2 + 0.5,
-            dx: (_random.nextDouble() - 0.5) * 0.2, // small horizontal drift
-            dy: (_random.nextDouble() - 0.5) * 0.2, // small vertical drift
+            dx: (_random.nextDouble() - 0.5) * 0.2,
+            dy: (_random.nextDouble() - 0.5) * 0.2,
             glow: _random.nextDouble() * 2 + 1,
             brightness: _random.nextDouble() * 0.5 + 0.5,
           ),
@@ -109,11 +107,9 @@ class _StarryBackgroundState extends State<StarryBackground>
     if (!mounted) return;
 
     for (var star in _stars) {
-      // move star in both directions
       double newX = star.position.dx + star.dx;
       double newY = star.position.dy + star.dy;
 
-      // wrap around screen edges
       if (newX < 0) newX = screenWidth;
       if (newX > screenWidth) newX = 0;
       if (newY < 0) newY = screenHeight;
@@ -121,7 +117,6 @@ class _StarryBackgroundState extends State<StarryBackground>
 
       star.position = Offset(newX, newY);
 
-      // twinkle
       star.brightness += (_random.nextDouble() - 0.5) * 0.02;
       star.brightness = star.brightness.clamp(0.5, 1.0);
     }
@@ -139,7 +134,11 @@ class _StarryBackgroundState extends State<StarryBackground>
   Widget build(BuildContext context) {
     return CustomPaint(
       size: Size.infinite,
-      painter: StarryBackgroundPainter(stars: _stars, backgroundColor: AppColors.background(context), starColor: AppColors.text(context)),
+      painter: StarryBackgroundPainter(
+        stars: _stars,
+        backgroundColor: AppColors.background(context),
+        starColor: AppColors.text(context),
+      ),
     );
   }
 }
