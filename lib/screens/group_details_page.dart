@@ -34,7 +34,7 @@ Color roleColor(String role) {
 class GroupMember {
   final String id;
   final String name;
-  final String role; // admin | moderator | member
+  final String role;
 
   GroupMember({
     required this.id,
@@ -223,7 +223,7 @@ class _GroupDetailPageState extends State<GroupDetailPage>
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               navButton("Chat", 0, icon: Icons.chat_rounded),
-              navButton("Bejegyzések", 1, icon: Icons.article_rounded),
+              navButton("Posztok", 1, icon: Icons.article_rounded),
               navButton("Tagok", 2, icon: Icons.people_rounded),
             ],
           ),
@@ -495,7 +495,6 @@ Widget buildMembersView() {
         ),
         child: Row(
           children: [
-            // Avatar
             CircleAvatar(
               radius: 22,
               backgroundColor: getGroupColor().withOpacity(0.8),
@@ -510,7 +509,6 @@ Widget buildMembersView() {
 
             SizedBox(width: 14),
 
-            // Név + rang
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -549,7 +547,6 @@ Widget buildMembersView() {
 
 Widget buildContent() {
   if (selectedIndex == 0) {
-    // 💬 CHAT
     return Column(
       children: [
         Expanded(
@@ -575,7 +572,6 @@ Widget buildContent() {
       ],
     );
   } else if (selectedIndex == 1) {
-    // 📰 POSZTOK
     return Column(
       children: [
         Expanded(
@@ -607,11 +603,9 @@ Widget buildContent() {
       ],
     );
   } else if (selectedIndex == 2) {
-    // 👥 TAGOK
     return buildMembersView();
   }
 
-  // fallback (biztonsági)
   return SizedBox.shrink();
 }
 
@@ -757,19 +751,23 @@ Widget buildContent() {
 
     return Scaffold(
       backgroundColor: Color(0xFF0A0A0A),
-      appBar: AppBar(
+appBar: AppBar(
         backgroundColor: Color(0xFF0F0F0F),
         elevation: 0,
-        leadingWidth: 40,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white.withOpacity(0.9),
+        leadingWidth: 48,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 4),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white.withOpacity(0.9),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
+        titleSpacing: 4,
         title: Row(
           children: [
             Container(
